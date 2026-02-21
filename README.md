@@ -29,6 +29,9 @@
 #### プログラミングコンテスト
 - プログラミング練習問題：https://atcoder.jp/?lang=ja
 
+#### マテリアルインフォ
+- すぐできるマテリアルズ・インフォマティクス https://github.com/hatanaka-lab/Getting_started_with_MI
+
 
 #### 深層学習
 - 医療深層学習：https://japan-medical-ai.github.io/medical-ai-course-materials/index.html
