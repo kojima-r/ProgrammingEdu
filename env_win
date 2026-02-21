@@ -1,0 +1,255 @@
+
+# 🖥 Windowsでの開発環境構築（WSL + Ubuntu）
+
+このガイドでは、Windows上に **Ubuntu（WSL）を導入し、Python開発環境を構築する手順** を説明します。
+
+---
+
+# 📌 全体の流れ
+
+1. Ubuntu（WSL）のインストール
+2. Git確認
+3. GitHub（SSH）設定
+4. 自分がフォークしたリポジトリをクローン
+5. Miniforge導入
+6. 仮想環境構築
+7. Hello World確認
+8. VS Code設定
+9. VS CodeからWSL接続
+
+---
+
+# ① 🐧 Ubuntu / WSL のインストール
+
+## 手順
+
+1. Microsoft Storeを開く
+2. 「Ubuntu」と検索
+3. **Ubuntu 24.04 LTS** を選択
+4. 「入手」をクリック
+5. インストール完了後に起動
+
+---
+
+## 初回起動時の設定
+
+```
+Enter new UNIX username:
+```
+
+→ 任意のユーザー名を入力
+
+```
+New password:
+```
+
+→ 任意のパスワードを入力（表示されません）
+
+```
+Retype password:
+```
+
+→ 再入力
+
+⚠ パスワード入力時は文字が表示されませんが正常です。
+
+---
+
+## ❗ エラーが出る場合
+
+以下のようなエラー：
+
+```
+WslRegisterDistribution failed with error: 0x80370114
+```
+
+### 解決方法
+
+スタートメニュー →
+「Windows の機能の有効化または無効化」
+
+以下にチェック：
+
+* ✅ Linux 用 Windows サブシステム
+* ✅ 仮想マシン プラットフォーム
+
+再起動後、再度Ubuntuを起動してください。
+
+---
+
+# ② 🧭 ターミナルを再度開く方法
+
+スタートメニューで「Ubuntu」または「ターミナル」と検索。
+
+---
+
+# ③ 🧩 Git の確認
+
+```bash
+git --version
+```
+
+表示されない場合：
+
+```bash
+sudo apt update
+sudo apt install git
+```
+
+---
+
+# ④ 🔐 GitHub の SSH セットアップ
+
+## 4-1. SSH鍵の作成（推奨方式）
+
+```bash
+ssh-keygen -t ed25519 -C "your_email@example.com"
+```
+
+保存先はそのままEnterでOK。
+
+---
+
+## 4-2. 公開鍵の確認
+
+```bash
+cat ~/.ssh/id_ed25519.pub
+```
+
+表示された文字列をコピー。
+
+---
+
+## 4-3. GitHubへ登録
+
+1. [https://github.com/settings/ssh/new](https://github.com/settings/ssh/new) を開く
+2. 以下を入力：
+
+   * Title：任意
+   * Key type：Authentication Key
+   * Key：コピーした公開鍵
+3. 「Add SSH key」をクリック
+
+---
+
+## 4-4. 接続確認
+
+```bash
+ssh -T git@github.com
+```
+
+以下が表示されれば成功：
+
+```
+Hi username! You've successfully authenticated...
+```
+
+---
+
+# ⑤ 📂 リポジトリをクローン
+
+⚠ **重要**
+
+クローンするのは **自分がフォークしたリポジトリ** です。
+
+```bash
+cd ~
+git clone git@github.com:あなたのGitHubユーザー名/フォークしたリポジトリ名.git
+```
+
+### 例
+
+```bash
+git clone git@github.com:yourname/Programming.git
+```
+
+🔎 `Programming.git` は固定ではありません。
+必ず **自分のフォーク先リポジトリ名** を指定してください。
+
+---
+
+# ⑥ 🐍 Miniforge のインストール
+
+```bash
+cd ~
+wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
+bash Miniforge3-Linux-x86_64.sh
+```
+
+途中の質問は基本的にEnterでOK。
+
+---
+
+# ⑦ ⚙ conda の初期設定
+
+⚠ **1行ずつ実行してください**
+
+```bash
+conda init bash
+source ~/.bashrc
+```
+
+---
+
+# ⑧ 🧪 仮想環境の構築
+
+```bash
+cd ~/フォークしたリポジトリ名
+conda env create -f environment.yml
+conda activate clinfo
+```
+
+---
+
+# ⑨ 👋 Hello World（動作確認）
+
+```bash
+python
+```
+
+```python
+print("Hello World")
+```
+
+`Hello World` と表示されれば成功。
+
+---
+
+# ⑩ 🧑‍💻 Visual Studio Code のインストール
+
+1. Microsoft Storeで「Visual Studio Code」を検索
+2. インストール・起動
+
+---
+
+## 🌐 日本語化（任意）
+
+1. Extensions → 「Japanese Language Pack」
+2. Install
+3. 「Change Language and Restart」をクリック
+
+---
+
+# ⑪ 🔗 VS Code から WSL を開く
+
+## 11-1. WSL拡張機能のインストール
+
+1. Extensions
+2. 「WSL」を検索
+3. Install
+
+---
+
+## 11-2. Ubuntuを開く
+
+1. Remote Explorer を開く
+2. 「Ubuntu 24.04 LTS」を選択
+3. 「→」をクリック
+
+※ 現在のウィンドウで開くとデフォルト設定にできます。
+
+---
+
+# ✅ 完了
+
+これで Windows + WSL 上での開発環境構築は完了です。
